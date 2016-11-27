@@ -1,0 +1,22 @@
+{% extends "base.twig" %}
+{% block body %}
+    <div class="login-box">
+
+        <label><h3>{{ email }}</h3></label>
+        <form method="POST" action="">
+            <div class="btn-group">
+            <button class="btn btn-info">Log out</button>
+            <a href="change-pass" class="btn btn-info">Change password</a>
+            </div>
+        </form>
+        {#<li> 
+            <img src ="avatar/{{id['u_id']}}_150.jpg">  
+        </li>
+        <li> 
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="img" >
+                <input type="submit" class="btn btn-info">
+            </form>
+        </li>#}
+    </div>
+{% endblock %}

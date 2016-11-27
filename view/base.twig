@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link href="{{ webPath }}css/vendor/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ webPath }}css/szablon.css" rel="stylesheet">
+
+        <script type="text/javascript" src="{{ webPath }}js/vendor/jquery-3.1.1.min.js"></script>
+
+
+
+    </head>
+    <body>
+        <header>
+
+        </header>
+        {% include 'common/header.twig' %}
+        <div class="container main-container">
+            {% block body %}
+                
+            {% endblock %}
+        </div>
+        <footer>
+            {% include 'common/footer.twig' %}
+        </footer>
+
+        <script type="text/javascript" src="{{ webPath }}js/jquery.cookie.js"></script>
+        <script src="https://unpkg.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>
+ 
+    </body>
+</html>

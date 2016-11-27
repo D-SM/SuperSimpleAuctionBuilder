@@ -1,0 +1,44 @@
+{% extends "base.twig" %}
+{% block body %}
+    <h1>My cities</h1>
+
+    {% if alertAddCity %}
+        {% include 'alerts/city-added.twig' %}
+    {% endif %}
+
+    {% if alertRemoveCity %}
+        {% include 'alerts/city-removed.twig' %}
+    {% endif %} 
+
+    {% if alertCityExist %}
+        {% include 'alerts/city-exists.twig' %}
+    {% endif %}
+
+    <div class="row">
+        {% for weather in cities %}
+            <div class="col-md-4 col-sm-6 cal-xs-12">
+                <div class="city-box">
+                    <ul>
+                        <li><h4>{{ weather['name'] }}</h4></li>
+                        <li>Temperature: {{ weather['temp'] }} °C</li>
+                        <li>Pressure: {{ weather['pressure'] }} hPa</li>
+                        <li>Humidity: {{ weather['humidity'] }} %</li>
+                        <li>Wind speed: {{ weather['windSpeed'] }} m/s</li>
+                        <li>Wind direction: {{ weather['windDirection'] }}</li>
+                    </ul>
+                    <img src="{{ webPath }}/images/{{weather['icon']}}.png" >
+                    <form class="add-city" action="{{ webPath}}profile" method="post">
+                        <input name="city"  type="hidden" value="{{ weather['name'] }}">
+                        <input name="removingCity"  type="hidden" value="true">
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </div>
+            </div>
+
+
+        {% endfor %}
+    </div>
+
+
+
+{% endblock %}

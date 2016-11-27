@@ -1,0 +1,24 @@
+{% extends "base.twig" %}
+{% block body %}
+    <form method="post" action="" class="login-box">
+        <div class="form-group">
+            <ul>
+                <li>
+                    <label>Old password</label>
+                    <input type="password" name="password-old" placeholder="Old password" required class="form-control"/>
+                </li>  
+                <li>
+                    <label>New password</label>
+                    <input type="password" name="password-new" placeholder="New password" required class="form-control"/>
+                </li>    
+                <li>
+                    <label>Repeat password</label>
+                    <input type="password" name="password-confirm-new" placeholder="Repeat password" required class="form-control"/>
+                </li>
+                <li>
+                    <button class="btn btn-info">Save</button>
+                </li>
+            </ul> 
+        </div>
+    </form>
+{% endblock %}

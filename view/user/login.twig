@@ -1,0 +1,38 @@
+{% extends "base.twig" %}
+{% block body %}
+    {% if errors is not empty %}
+        <ul class="errors">
+            {% for e in errors %}
+                <li>{{ e }}</li>
+                {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="login-box">
+    <form method="post" action="" >
+        <div class="form-group">
+            <ul>
+                <li>
+                    <label>Login</label>
+                    <input type="email" name="email" value="{{ email }}" placeholder="E-mail" required class="form-control"/>
+                </li>
+                <li>
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Password" required class="form-control" />
+                </li>    
+                <li>
+                    <button class="btn btn-info">Log in</button>
+                </li>
+            </ul>   
+        </div>
+    </form>
+            <ul>
+                <li>
+                    <a href="{{webPath}}remind-pass">Password reminder</a>
+                </li>
+                <li>
+                    <a href="{{webPath}}register">Sign up</a>
+                </li>
+            </ul> 
+    </div>
+{% endblock %}

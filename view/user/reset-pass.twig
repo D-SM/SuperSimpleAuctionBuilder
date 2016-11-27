@@ -1,0 +1,30 @@
+{% extends "base.twig" %}
+{% block body %}
+
+    {% if errors is not empty %}
+        <ul class="errors">
+            {% for e in errors %}
+                <li>{{ e }}</li>
+                {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" action="" class="login-box">
+        <div class="form-group">
+            <ul>
+                <li>
+                    <label>New password</label>
+                    <input type="password" name="password" placeholder="New password" required class="form-control"/>
+                </li>    
+                <li>
+                    <label>Repeat password</label>
+                    <input type="password" name="password-confirm" placeholder="Repeat password" required class="form-control"/>
+                </li>
+                <li>
+                    <button>Save</button>
+                </li>
+            </ul>    
+        </div>
+    </form>
+{%endblock%}
+{# empty Twig template #}

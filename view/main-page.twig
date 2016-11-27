@@ -1,0 +1,123 @@
+
+{% extends "base.twig" %}
+{% block body %}
+    <hr>
+    <h1>MAIN PAGE</h1>
+    {#    <script
+            accesskey="" src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>#}
+    <script src='{{ webPath }}public/js/main-page.js'></script>
+    <div>
+        {% include 'common/ending.twig' %}  
+        {#
+        tutaj miejsce na wewnętrzny z infomracja na temat tego kiedy konczy sie aukja
+        #}
+    </div>
+    <div>
+        {% include 'new.twig' %}
+       {#
+       tutaj napisać w rqzie co wewnętrznie divy  z filtrem na najnowsze aukcje
+       #}
+       
+    </div>
+
+
+    <div class="row cities-boxes">
+        <div class="grid">
+            {% for weather in cities %}
+                <div class="col-md-4 col-sm-6 cal-xs-12 grid-item">
+                    <div class="city-box main-box">
+                        <h4>{{ weather.name }}</h4>
+                        <img src="{{ webPath }}/images/{{weather['icon']}}.png" >
+                        <div class="weather-content">
+                            <ul class="weather-hidden ">
+                                <li>Temperature: {{ weather.temp }} *C</li>
+                                <li>Pressure: {{ weather.pressure }} hPa</li>
+                                <li>Humidity: {{ weather.humidity }} %</li>
+                                <li>Wind speed: {{ weather.windSpeed }} m/s</li>
+                                <li>Wind Direction: {{ weather.windDirection }}</li>
+                            </ul>
+                            {#<form class="add-city" action="{{ webPath}}details" method="get">
+                                <input name="city"  type="hidden" value="{{ weather['name'] }}">
+                                <button type="submit" class="btn btn-xs btn-success">Details</button>
+                            </form>#}
+                            <form class="add-city" action="{{ webPath}}profile" method="post">
+                                <input name="city"  type="hidden" value="{{ weather['name'] }}">
+                                <input name="addingCity"  type="hidden" value="true">
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-xs btn-success">Add to my profile</button>
+                                    <a data-city="{{ weather.name }}" href="javascript:void(0);" class="btn btn-xs btn-success clipboard-add">Add to clipboard</a>
+                                    <a href="./details?city={{ weather['name'] }}" class="btn btn-xs btn-success">Details</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="cal-xs-12 text-center">
+            <button type="button" class="btn btn-info load-more">Load more</button>
+        </div>
+    </div>
+
+    <h2>MIN MAX Temperatures</h2>
+    <div class="row">
+        {% for day, value in minmax %}
+            <div class="col-md-4 col-sm-6 cal-xs-12">
+                <div class="city-box ">
+                    <ul>
+                        <li><h4>{{ day }}</h4></li>
+                        <li>Min: {{ value['min'] }} *C</li>
+                        <li>Max: {{ value['max'] }} *C</li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>FORECAST</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="city-box">
+                <form id="forecastForm" method="post">
+                    <select name="daySelect">
+                        <option value="1">aktualna</option>
+                        <option value="2">za dobę</option>
+                        <option value="3">za 2 doby</option>
+                        <option value="4">za 3 doby</option>
+                    </select>    
+                    <select name="citySelect">
+                        {% for city in selectedCities %}
+                            <option value="{{ city }}">{{ city }}</option>
+                        {% endfor %}
+                        {#                        <option value="Poznan">Poznan</option>
+                                                <option value="Warsaw">Warsaw</option>
+                        #}                    </select>                    
+                    <input type="submit">
+                </form>    
+            </div>
+
+        </div>
+    </div>
+    <div id="forecastBox">
+        <div class="row">
+            {% for weather in forecast %}
+                <div class="col-md-4 col-sm-6 cal-xs-12">
+                    <div class="city-box ">
+                        <ul>
+                            <li><h4>{{ weather['date'] }}</h4></li>
+                            <li>Temperature: {{ weather['temp'] }} *C</li>
+                            <li>Pressure: {{ weather['pressure'] }} hPa</li>
+                            <li>Humidity: {{ weather['humidity'] }} %</li>
+                        </ul>
+                        <img src="{{ webPath }}/images/{{weather['icon']}}.png" >
+                    </div>
+                </div>
+            {% endfor %}
+        </div>     
+    </div>
+{% endblock %}

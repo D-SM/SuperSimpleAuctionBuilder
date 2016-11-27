@@ -1,0 +1,230 @@
+<?php
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+//error_reporting(E_ALL);
+
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/const.php';
+
+$Session = new User\Model\Session();
+$app = new \Silex\Application();
+
+use App\MainController;
+use App\SearchController;
+use App\ProfileController;
+use App\DetailsController;
+use App\ClipboardController;
+
+$app->register(new \Silex\Provider\TwigServiceProvider(), [
+    'twig.path' => __DIR__ . '/view',
+]);
+
+$app['twig']->addGlobal('webPath', WEB_PATH);
+
+$app['twig']->addGlobal('userName', \User\Model\Session::getName());
+
+/* WIDOK REJESTRACJI */
+$app->get('/register', function () use ($app) {
+    return $app['twig']->render('user/register.twig');
+});
+
+/* WIDOK LOGOWANIA */
+
+$app->get('/login', function () use ($app) {
+    //diabelek: brak controlera
+    return $app['twig']->render('user/login.twig', [
+                'path' => WEB_PATH
+    ]);
+});
+
+/* WIDOK ZMIANY HASŁA */
+$app->get('/change-pass', function () use ($app) {
+    return $app['twig']->render('user/change-pass.twig');
+});
+
+$app->post('/change-pass', function () use ($app) {
+    $changePass = new User\UserController();
+    $changePass->changePassword();
+    return $app->redirect('user-panel');
+});
+
+/* WIDOK PANELU UŻYTKOWNIKA */
+$app->get('/user-panel', function () use ($app ) {
+    //diabelek: brak controlera
+    return $app['twig']->render('user/user-panel.twig', [
+        'email' => User\Model\Session::getName(),
+    ]);
+    if ($_SESSION) {
+//        $id = new \User\Model\Session();
+//        $id->getId();
+        $id = new \User\Model\User();
+        $email = User\Model\Session::getName();
+        $test = $id->getID($email);
+        
+        
+        return $app['twig']->render('user/user-panel.twig', [
+                    'email' => User\Model\Session::getName(),
+                    'id'  =>  User\Model\Session::getId()
+        ]);
+    } else {
+        return $app->redirect('/phpjspoz1/login');
+    }
+});
+$app->post('/user-panel', function () use ($app ) {
+    if ($_POST['name']) {
+
+    } else {
+        session_unset();
+        return $app->redirect('/phpjspoz1/login');
+    }
+});
+
+$app->get('/remind-pass', function () use ($app) {
+    return $app['twig']->render('user/remind-pass.twig');
+});
+$app->post('/reset-passs', function () use ($app) {
+    $resetPass = new User\UserController();
+    $resetPass->resetPassword();
+    return $app->redirect('login');
+});
+
+$app->get('/reset-pass-confirm/{email}/{hash}', function ($email, $hash) use ($app) {
+    $resetPasswordConfirmation = new User\UserController();
+    
+    if ($resetPasswordConfirmation->validateInputs($email, $hash)) {
+
+        return $app['twig']->render('user/reset-pass.twig');
+    }
+    return $app['twig']->render('error.twig');
+});
+
+
+$app->post('/login', function () use ($app ) {
+    //diabelek: brak controlera
+    $reg = new User\UserController();
+    $reg->renderLoginPage();
+
+    if ($reg->renderLoginPage()) {
+
+        return $app->redirect('user-panel');
+    } else {
+        return $app['twig']->render('user/login.twig', [
+                    'errors' => $reg->getInputErrors(),
+        ]);
+    }
+});
+
+$app->post('/register', function () use ($app) {
+    $reg = new User\UserController();
+    $reg->renderRegisterPage();
+    $reg->SendMail($reg->mailConfirm());
+    return $app['twig']->render('user/login.twig', [
+                'errors' => $reg->getInputErrors()
+    ]);
+});
+
+$app->get('/', function() use ($app) {
+    $controller = new MainController($app['twig']);
+    return $controller->renderPage(1);
+});
+
+/* STRONA WYNIkU WYSZUKIWANIA */
+$app->get('/search/', function() use ($app) {
+    $controller = new SearchController($app['twig']);
+    return $controller->renderPage();
+});
+
+/* STRONA SCHOWKA */
+$app->get('/clipboard/', function() use ($app) {
+    $controller = new ClipboardController($app['twig']);
+    return $controller->renderPage();
+});
+
+/* STRONA PROFILU */
+$app->get('/profile', function() use ($app) {
+    $controller = new ProfileController($app['twig']);
+    return $controller->renderPage($app);
+});
+
+/* STRONA DETALI MIASTA */
+$app->get('/details', function() use ($app) {
+    $controller = new DetailsController($app['twig']);
+    return $controller->renderPage($app);
+});
+
+$app->get('/confirm-account', function() use ($app) {
+    return $app['twig']->render('user/confirm-account.twig');
+});
+
+$app->get('/confirm-account', function() use ($app) {
+    return $app['twig']->render('user/login.twig');
+});
+
+$app->post('/profile', function() use ($app) {
+    $controller = new ProfileController($app['twig']);
+    return $controller->renderPage($app);
+});
+
+$app->post('/reset-pass-confirm/{email}/{hash}', function ($email, $hash) use ($app) {
+    $session = new User\Model\Session();
+    User\Model\Session::saveName($email);
+    $resetPass = new User\UserController();
+
+    if (!$resetPass->resetPassword()) {
+        return $app['twig']->render('user/reset-pass.twig', [
+                    'errors' => $resetPass->getInputErrors()
+        ]);
+    } else {
+        $cleanHash = new User\Model\User();
+        $cleanHash->removeHash($email);
+        return $app->redirect('/phpjspoz1/login');
+    }
+});
+$app->post('/remind-pass', function () use ($app) {
+    $reg = new User\UserController();
+    if($reg->SendMail($reg->renderRememberPasswordPage())){
+    return $app['twig']->render('user/send-mail.twig');
+    }else {
+        return $app['twig']->render('user/remind-pass.twig',[
+            'errors' => $reg->getInputErrors()
+        ]);
+    }
+
+    });
+
+$app->post('/apigeo', function() use ($app) {
+    $location = \WeatherAPI\GeolocController::getCurrentWeatherByCoordinates();
+    return $app['twig']->render('geolocation.twig', [
+                'location' => $location
+    ]);
+});
+
+$app->post('/forecast', function() use ($app) {
+    $forecastcontroller = new \WeatherAPI\ForecastController(); 
+    $forecast = $forecastcontroller->getForecastByCityAndDay();
+    return $app['twig']->render('forecast.twig', [
+                'forecast' => $forecast
+    ]);
+});
+
+
+$app->get('/get', function() use ($app) {
+    
+    $citycontroller = new \WeatherAPI\CitiesController();
+    $allcities = $citycontroller->getCities();
+    return json_encode(['allcities' => $allcities]);
+
+});
+
+$app->get('/cities/get/', function() use ($app) {
+    $offset = filter_input(INPUT_GET, 'offset', FILTER_SANITIZE_NUMBER_INT);        
+    $citiesController = new \App\CitiesController($app['twig']);
+    return $citiesController->renderPage($offset);
+
+});
+
+
+
+
+$app->run();
+

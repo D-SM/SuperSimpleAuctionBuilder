@@ -1,0 +1,21 @@
+{
+  "name": "Super Simple Auction Builder",
+  "description": "Simple and easy auctions for fast usage.",
+  "authors": [
+    {
+      "name": "Dawid Smolski",
+      "email": "dawid.smolski@gmail.com"
+    }
+  ],
+  "require": {
+    "silex/silex": "~1.3",
+    "symfony/twig-bridge": "~2.3",
+    "phpmailer/phpmailer": "~5.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "User\\": "src/User/",
+      "App\\": "src/App/"
+    }
+  }
+}

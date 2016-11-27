@@ -1,0 +1,142 @@
+body {
+  background-color: #eee;
+  margin-top: 54px; }
+
+.main-container {
+  min-height: calc(100vh - 145px); }
+
+footer {
+  background-color: #222;
+  min-height: 60px;
+  width: 100%;
+  margin-top: 30px; }
+
+ul {
+  list-style: none; }
+
+h2.logo {
+  color: white;
+  margin-top: 10px;
+  max-width: 200px; }
+  h2.logo a {
+    color: white; }
+
+.logo a:hover {
+  text-decoration: none;
+  opacity: 0.9; }
+.logo img {
+  height: 56px; }
+
+.container.main {
+  margin-top: 70px; }
+
+.search {
+  display: inline-block;
+  padding: 0px;
+  float: right;
+  margin-top: 18px; }
+
+.login-box {
+  box-shadow: 1px 1px 5px 0px #ddd;
+  background-color: white;
+  text-align: center;
+  margin: auto;
+  margin-top: 60px;
+  padding: 15px;
+  max-width: 400px;
+  max-height: 300px; }
+  .login-box ul {
+    padding: 0px; }
+  .login-box li {
+    margin-bottom: 10px; }
+  .login-box input {
+    display: block;
+    margin: auto; }
+
+.main-box h4 {
+  padding-left: 10px; }
+
+.city-box.main-box {
+  cursor: pointer;
+  transition: 0.2s; }
+
+.city-box {
+  display: inline-block;
+  margin: 10px 0px;
+  background-color: white;
+  width: 100%;
+  box-shadow: 1px 1px 5px 0px #ddd; }
+  .city-box h4 {
+    display: inline-block; }
+  .city-box h3 {
+    font-style: 600;
+    font-size: 25px; }
+  .city-box ul {
+    padding: 5px 10px;
+    max-width: 240px;
+    display: inline-block; }
+  .city-box li {
+    list-style: none; }
+  .city-box img {
+    display: inline-block;
+    float: right;
+    vertical-align: top;
+    margin: 5px 10px 0px 0px; }
+  .city-box form button.btn {
+    margin-left: 15px; }
+  .city-box .geolocation-img {
+    height: 127px;
+    margin-right: 50px; }
+  .city-box .btn-group {
+    margin-left: 10px;
+    display: inline-block; }
+
+ul.weather-hidden {
+  display: none; }
+
+.login-reg a {
+  color: white;
+  float: left;
+  margin-left: 25px;
+  margin-top: 22px; }
+
+.highlight {
+  background-color: lightgrey;
+  box-shadow: 1px 1px 15px 0px #bbb; }
+
+.search input#not-hidden {
+  background: none; }
+
+.search input#hidden-input {
+  position: absolute;
+  color: #908e8e;
+  z-index: -1; }
+
+.search input#not-hidden {
+  background: none; }
+
+.search input#hidden-input {
+  position: absolute;
+  color: #908e8e;
+  z-index: -1; }
+
+@media (max-width: 767px) {
+  body, .login-box {
+    margin-top: 104px; }
+
+  .search {
+    display: none; } }
+.grid-item {
+  width: 300px; }
+
+#map {
+  height: 170px; }
+
+@media (max-width: 1000px) {
+  .navbar-header {
+    float: left; }
+    .navbar-header img {
+      height: 35px;
+      margin-top: 13px; } }
+
+/*# sourceMappingURL=szablon.css.map */

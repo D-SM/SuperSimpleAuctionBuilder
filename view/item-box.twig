@@ -1,0 +1,32 @@
+{% for weather in cities %}
+    <div class="col-md-4 col-sm-6 cal-xs-12 grid-item">
+        <div class="city-box main-box">
+            <h4>{{ weather.name }}</h4>
+            <img src="{{ webPath }}/images/{{weather['icon']}}.png" >
+            <div class="weather-content">
+                <ul class="weather-hidden ">
+                    <li>Temperature: {{ weather.temp }} *C</li>
+                    <li>Pressure: {{ weather.pressure }} hPa</li>
+                    <li>Humidity: {{ weather.humidity }} %</li>
+                    <li>Wind speed: {{ weather.windSpeed }} m/s</li>
+                    <li>Wind Direction: {{ weather.windDirection }}</li>
+                </ul>
+                {#<form class="add-city" action="{{ webPath}}details" method="get">
+                    <input name="city"  type="hidden" value="{{ weather['name'] }}">
+                    <button type="submit" class="btn btn-xs btn-success">Details</button>
+                </form>#}
+                <form class="add-city" action="{{ webPath}}profile" method="post">
+                    <input name="city"  type="hidden" value="{{ weather['name'] }}">
+                    <input name="addingCity"  type="hidden" value="true">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-xs btn-success">Add to my profile</button>
+                        {% if removeCookies is defined %}
+                            <a href="javascript:void(0)" data-city="{{ weather.name }}" class="btn btn-xs btn-danger clipboard-remove">Remove from clipboard</a>
+                        {% endif %}
+                        <a href="./details?city={{ weather['name'] }}" class="btn btn-xs btn-success">Details</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endfor %}
